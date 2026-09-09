@@ -1,0 +1,19 @@
+services:
+  vaultwarden:
+    image: vaultwarden/server:latest
+    container_name: vaultwarden
+    restart: unless-stopped
+    environment:
+      DOMAIN: "https://vault.benross.ch"
+      SIGNUPS_ALLOWED: "false"
+      WEBSOCKET_ENABLED: "true"
+      # SIGNUPS_ALLOWED=false by default. To create your first account:
+      #   1. set it to "true" here (or via .env)
+      #   2. docker compose up -d
+      #   3. create the account in the web UI
+      #   4. set it back to "false" and re-run docker compose up -d
+    volumes:
+      - /home/ubuntu/vaultwarden/data:/data
+    ports:
+      # bound to localhost only — Nginx is the only public entry point
+      - "127.0.0.1:8080:80"
